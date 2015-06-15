@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head lang="es">
+    <meta charset="UTF-8">
+    <title></title>
+
+    <style>
+        header {
+
+            height: 2em;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-size: 3em;
+            font-family: impact;
+            line-height: 1em;
+
+        }
+        #form{
+
+            width: 30%;
+            text-align: center;
+            color: white;
+            font-family: impact;
+            font-size: 1.5em;
+            border-left :0.5em lightslategray ridge;
+            border-right :0.5em lightslategray ridge;
+            border-radius: 20% 20% 20% 20%;
+            background-repeat: no-repeat;
+            height: 10em;
+            margin: 0 auto;
+            background-size: 100%;
+            color: white;
+        }
+        body {
+            background-image: url("img/fondo-login.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+
+        }
+
+        .lbl {
+        }
+
+        .txt {
+            font-size: 0.5em;
+            border-left :0.7em lightslategray ridge;
+            border-right :0.7em lightslategray ridge;
+            border-radius: 20% 20% 20% 20%;
+            background-color: transparent;
+            color: white;
+
+        }
+
+        .txtLentgh {
+
+            font-size: 0.5em;
+            border-left :0.7em lightslategray ridge;
+            border-right :0.7em lightslategray ridge;
+            border-radius: 20% 20% 20% 20%;
+            background-color: transparent;
+            color: white;
+            width: 20em;
+
+        }
+
+        #imgEmail {
+
+
+        }
+
+        .btn {
+
+            font-size: 0.7em;
+            width: 20em;
+            border-radius: 30%;
+            border-left: 0 transparent dashed;
+            border-right: 0 transparent dashed;
+            border-top :0.5em lightslategray ridge;
+            border-bottom :0.5em lightslategray ridge;
+            background-color: transparent;
+            color: white;
+        }
+
+        .btn:hover {
+
+            -webkit-transition: width 2s; /* Safari */
+            transition: background-color  2s;
+            background-color: black;
+
+        }
+
+    </style>
+
+    <script type="text/javascript">
+
+        function validator() {
+
+            document.forms[0].submit();
+        }
+
+    </script>
+
+</head>
+<body>
+<header>
+    <p>Iniciar Sesión</p>
+</header>
+<div id="form">
+    <form method="post" action="http://localhost/xampp/JuegoSpace/Controler//control.php">
+
+        <label class="lbl">Email :</label> <br/>
+        <input type="email" name="txtEmail" maxlength="300"  class="txtLentgh"/>
+        <label class="lbl" id="lblUsuario"></label> <br/> <br/>
+
+        <label class="lbl">Contraseña :</label> <br/>
+        <input type="password" name="txtContrasena" maxlength="15" class="txtLentgh" required title="La contraseña debe contener letras y numeros"/>
+
+        <input type="hidden" name="mode" value="login"/>
+
+    </form>
+    <br/> <br/>
+    <button class="btn" onclick="validator()">Entrar</button>
+</div>
+</body>
+</html>

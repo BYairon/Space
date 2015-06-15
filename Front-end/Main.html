@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head lang="es">
+    <meta charset="UTF-8">
+    <title>Página principal</title>
+    <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+
+        var partidas;
+
+        function loadContent(n) {
+
+            switch(n) {
+
+                case "n1":
+                        cargarPartidas();
+                    break;
+                case "n2":
+                    break;
+                case "n3:":
+                    break;
+                case "n4":
+                    break;
+                case "n5":
+                    break;
+            }
+
+        }
+
+
+        function cargarPartidas() {
+
+            var xmlhttp;
+
+            if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            }
+            else {// code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+
+            xmlhttp.onreadystatechange = function () {
+
+                var content = document.getElementById("content");
+                content.innerHTML = "";
+
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+                    partidas = JSON.parse(xmlhttp.responseText);
+
+                    var tabla = document.createElement("table");
+                    var cabecera = document.createElement("tr");
+                    var empty = document.createElement("tr");
+
+                    var tdNombre = document.createElement("td");
+                    tdNombre.innerHTML = "Nombre";
+
+                    var tdJugadores = document.createElement("td");
+                    tdJugadores.innerHTML = "Jugadores";
+
+                    var tdEntrar = document.createElement("td");
+                    tdEntrar.innerHTML = "Entrar";
+
+                    cabecera.appendChild(tdNombre);
+                    cabecera.appendChild(tdJugadores);
+                    cabecera.appendChild(tdEntrar);
+
+                    empty.appendChild(document.createElement("td"));
+                    empty.appendChild(document.createElement("td"));
+
+                    tabla.appendChild(cabecera);
+
+
+                    for( i = 0; i < partidas.length; i++) {
+
+
+                        var tRow = document.createElement("tr");
+
+                        var tNombre = document.createElement("td");
+                        tNombre.innerHTML = partidas[i].nombre;
+
+                        var tJugadores = document.createElement("td");
+                        tJugadores.innerHTML = partidas[i].numJugadores;
+                        
+                        var tEntrar = document.createElement("td");
+                        tEntrar.innerHTML = "<img class='clickable' onclick='unirsePartida(" + partidas[i].idPartida +")' src=\"img/entrar.png\" width=\"30\" height=\"30\">";
+
+                        tRow.appendChild(tNombre);
+                        tRow.appendChild(tJugadores);
+                        tRow.appendChild(tEntrar);
+
+                        tabla.appendChild(empty);
+                        tabla.appendChild(tRow);
+
+                    }
+
+                    content.appendChild(tabla);
+
+                    $("#content").fadeTo("slow",0.7);
+
+                }
+
+            };
+
+                xmlhttp.open("POST","http://localhost/xampp/JuegoSpace/Controler//control.php",true);
+                xmlhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+                xmlhttp.send("mode=Ajax&target=get_partidas");
+        }
+
+        function unirsePartida(idPartida) {
+
+           var elementId = document.createElement("input");
+
+           elementId.type = "hidden";
+
+           elementId.name = "parameter";
+
+           elementId.value = idPartida;
+
+           document.forms[0].appendChild(elementId);
+
+           document.forms[0].submit();
+        }
+
+    </script>
+    <style>
+
+        table {
+
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-size: larger;
+            font-family: impact;
+            
+        }
+
+
+
+
+
+        #content {
+
+            width: 90%;
+            background-image: url("img/fondo.bmp");
+            background-size: cover;
+            height: 15em;
+            border: inset 0.5em silver;
+            margin: 0 auto;
+            margin-top: 10%;
+            border-radius: 10%;
+            opacity: 0;
+
+        }
+
+        .menu {
+
+            width: 100%;
+            height: 2em;
+        }
+
+        .clickable {
+
+            cursor: pointer;
+
+
+        }
+         .nodo {
+
+             width: 19.40%;
+             height: 100%;
+             float: left;
+             text-align: center;
+             color: silver;
+             background-image: url("img/fondo-nodo.jpg");
+             background-size: cover;
+             font-family: impact;
+             border-bottom: inset 0.5em silver;
+             border-left: inset 0.5em steelblue;
+             border-radius: 0 0 50% 50%;
+             cursor: pointer;
+        }
+
+        body {
+
+            background-image: url("img/fondo-main.jpg");
+            background-repeat: no-repeat;
+        }
+
+        .nodo:nth-child(1):hover {
+
+            border-left: inset 0.5em red;
+            transition: 2s;
+            -webkit-transition: 1s;
+
+        }
+
+        .nodo:nth-child(2):hover {
+
+            border-left: inset 0.5em greenyellow;
+            transition: 1s;
+            -webkit-transition: 1s;
+
+        }
+
+        .nodo:nth-child(3):hover {
+
+            border-left: inset 0.5em hotpink;
+            transition: 1s;
+            -webkit-transition: 1s;
+
+        }
+
+        .nodo:nth-child(4):hover {
+
+            border-left: inset 0.5em bisque;
+            transition: 1s;
+            -webkit-transition: 1s;
+
+        }
+
+        .nodo:nth-child(5):hover {
+
+            border-left: inset 0.5em gold;
+            transition: 1s;
+            -webkit-transition: 1s;
+
+        }
+
+    </style>
+</head>
+<body>
+<form method="post" action="http://localhost/xampp/JuegoSpace/Controler//control.php">
+ <div class="menu">
+     <div class="nodo" onclick="loadContent('n1')">Partidas</div>
+     <div class="nodo" onclick="loadContent('n2')">Perfil</div>
+     <div class="nodo" onclick="loadContent('n3')">¿Como se juega?</div>
+     <div class="nodo" onclick="loadContent('n4')">Somos Git</div>
+     <div class="nodo" onclick="loadContent('n5')">Contacto</div>
+
+ </div>
+<div id="content">
+
+</div>
+    <input type="hidden" name="mode" value="Modificacion">
+    <input type="hidden" name="target" value="unirse_partida">
+</form>
+</body>
+</html>

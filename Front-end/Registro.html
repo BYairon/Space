@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head lang="es">
+    <meta charset="UTF-8">
+    <title>Registro</title>
+    <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+
+         existe = true;
+
+
+        function validator() {
+
+            var txtNombre = document.getElementsByName("txtNombre")[0].value;
+            var txtApellido = document.getElementsByName("txtApellido")[0].value;
+            var txtEmail = document.getElementsByName("txtEmail")[0].value;
+            var txtContrasena = document.getElementsByName("txtContrasena")[0].value;
+            var txtContrasen2 = document.getElementsByName("txtContrasena2")[0].value;
+
+            if(txtNombre === "") {
+
+                alert("No puedes dejar el nombre vacio");
+                return;
+
+            }
+
+            if (txtApellido === "") {
+
+                alert("No puedes dejar el apellido vacio");
+                return;
+            }
+
+            if (txtEmail === "") {
+
+                alert("No puedes dejar el email vacio");
+                return;
+            }
+
+            if (txtContrasena === "") {
+
+                alert("No puedes dejar la contraseña vacia");
+                return;
+            }
+
+            if (txtContrasena === "") {
+
+                alert("Debes repetir la contraseña");
+                return;
+            }
+
+                    if(!existe) {
+
+                        var mode = document.createElement("input");
+                        mode.type = "hidden";
+                        mode.name = "mode";
+                        mode.value = "Alta";
+
+                        var target = document.createElement("input");
+                        target.type = "hidden";
+                        target.name = "target";
+                        target.value = "alta_usuario";
+
+                        document.forms[0].appendChild(mode);
+                        document.forms[0].appendChild(target);
+
+                       document.forms[0].submit();
+                    }
+
+        }
+
+        function ExisteUsuario(usuario) {
+
+            var labelUsuario = document.getElementById("lblUsuario");
+
+            if (usuario != "" && usuario.indexOf("@") > -1 ) {
+
+                var xmlhttp;
+
+                if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+                    xmlhttp = new XMLHttpRequest();
+                }
+                else {// code for IE6, IE5
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+
+                     xmlhttp.onreadystatechange = function () {
+
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+                         switch(xmlhttp.responseText) {
+
+                             case "true":
+                                 document.getElementById("imgEmail").src = "img/cancelar.png";
+                                 labelUsuario.style.color = "red";
+                                 labelUsuario.innerHTML = "Existe";
+                                 existe = true;
+                              break;
+
+                             case "false":
+                                 document.getElementById("imgEmail").src = "img/aceptar.png";
+                                  labelUsuario.style.color = "green";
+                                  labelUsuario.innerHTML = "Correcto";
+                                 existe = false;
+                             break;
+
+                             default:
+                                 document.getElementById("imgEmail").src = "img/cancelar.png";
+                                 labelUsuario.style.color = "red";
+                                 labelUsuario.innerHTML = "Error";
+                                 existe = true;
+                                     window.location = "http://localhost/xampp/JuegoSpace/Front-end/Main.html";
+                             break;
+                         }
+                    }
+                };
+
+                xmlhttp.open("POST","http://localhost/xampp/JuegoSpace/Controler//control.php",true);
+                xmlhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+                xmlhttp.send("mode=Ajax&target=existe_usuario&parameter="+ usuario +"");
+
+            }
+
+            else {
+
+                document.getElementById("imgEmail").src = "img/cancelar.png";
+                labelUsuario.style.color = "red";
+                labelUsuario.innerHTML = "No valido";
+                existe = true;
+            }
+
+            }
+
+        function clear () {
+
+             txtNombre = document.getElementsByName("txtNombre")[0].value = "" ;
+             txtApellido = document.getElementsByName("txtApellido")[0].value = "";
+             txtEmail = document.getElementsByName("txtEmail")[0].value = "";
+             txtContrasena = document.getElementsByName("txtContrasena")[0].value = "";
+             txtContrasen2 = document.getElementsByName("txtContrasena2")[0].value = "";
+
+        }
+
+    </script>
+
+    <style>
+        header {
+
+            height: 2em;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-size: 3em;
+            font-family: impact;
+            line-height: 1em;
+
+        }
+        #form{
+
+            width: 30%;
+            text-align: center;
+            color: white;
+            font-family: impact;
+            font-size: 1.5em;
+            border-left :0.5em lightslategray ridge;
+            border-right :0.5em lightslategray ridge;
+            border-radius: 20% 20% 20% 20%;
+            background-repeat: no-repeat;
+            height: 20em;
+            margin: 0 auto;
+            background-size: 100%;
+            color: white;
+        }
+        body {
+            background-image: url("img/tierra.jpg");
+
+        }
+
+        .lbl {
+        }
+
+        .txt {
+            font-size: 0.5em;
+            border-left :0.7em lightslategray ridge;
+            border-right :0.7em lightslategray ridge;
+            border-radius: 20% 20% 20% 20%;
+            background-color: transparent;
+            color: white;
+
+        }
+
+        .txtLentgh {
+
+            font-size: 0.5em;
+            border-left :0.7em lightslategray ridge;
+            border-right :0.7em lightslategray ridge;
+            border-radius: 20% 20% 20% 20%;
+            background-color: transparent;
+            color: white;
+            width: 20em;
+
+        }
+
+        #imgEmail {
+
+
+        }
+
+        .btn {
+
+            font-size: 0.7em;
+            width: 20em;
+            border-radius: 30%;
+            background-color: transparent;
+            color: white;
+        }
+
+        .btn:hover {
+
+            -webkit-transition: width 2s; /* Safari */
+            transition: background-color  2s;
+            background-color: black;
+
+        }
+
+    </style>
+</head>
+<body ONLOAD="clear()">
+<header>
+    <p>Registro</p>
+</header>
+<div id="form">
+    <form method="post" action="http://localhost/xampp/JuegoSpace/Controler//control.php">
+
+       <label class="lbl">Nombre :</label>  <br/>
+        <input type="text" name="txtNombre" maxlength="50" class="txtLentgh" required title="Se necesita un nombre"/> <br/> <br/>
+
+        <label class="lbl">Apellidos :</label>  <br/>
+        <input type="text" name="txtApellido" maxlength="100"  class="txtLentgh" required title="Se necesitan los apellidos"/> <br/> <br/>
+
+        <label class="lbl">Email :</label> <br/>
+        <input type="email" name="txtEmail" maxlength="300"  class="txtLentgh" required onblur="ExisteUsuario(this.value.toUpperCase())"/>
+        <img id="imgEmail" height="25" width="25">
+        <label class="lbl" id="lblUsuario"></label> <br/> <br/>
+
+            <label class="lbl">Contraseña :</label>
+        <input type="password" name="txtContrasena" maxlength="15" class="txt" required title="La contraseña debe contener letras y numeros"/> <br/> <br/>
+
+
+        <label class="lbl">Confirmar : </label>
+        <input type="password" name="txtContrasena2" maxlength="15" class="txt" required title="La contraseña debe contener letras y numeros"/> <br/><br/>
+
+    </form>
+    <button class="btn" onclick="validator()">Registrarme</button>
+</div>
+</body>
+</html>
